@@ -1,4 +1,4 @@
-package taufiq.apps.gsuapp
+package taufiq.apps.gsuapp.di
 
 import dagger.Module
 import dagger.Provides
@@ -7,6 +7,7 @@ import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import taufiq.apps.gsuapp.data.remote.client.GithubClient
 import taufiq.apps.gsuapp.data.remote.responses.search.SearchUserResponse
 import javax.inject.Singleton
 
@@ -23,10 +24,10 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGithubApi() : SearchUserResponse =
+    fun provideGithubApi() : GithubClient =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(SearchUserResponse::class.java)
+            .create(GithubClient::class.java)
         }
