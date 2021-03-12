@@ -5,4 +5,6 @@
     <string name="header_text">header text</string>
     <string name="user_avatar">user avatar</string>
     <string name="button_image_to_navigate_to_detail_page">button image to navigate to detail page</string>
+    <string name="setting">Setting</string>
+    <string name="favorite">favorite</string>
 </resources>

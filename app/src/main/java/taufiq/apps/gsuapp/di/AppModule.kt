@@ -3,12 +3,13 @@ package taufiq.apps.gsuapp.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import taufiq.apps.gsuapp.BuildConfig
 import taufiq.apps.gsuapp.data.remote.client.GithubClient
-import taufiq.apps.gsuapp.data.remote.responses.search.SearchUserResponse
 import javax.inject.Singleton
 
 /**
@@ -16,7 +17,7 @@ import javax.inject.Singleton
  *
  */
 
-private const val BASE_URL =  "https://api.github.com/"
+private const val BASE_URL = "https://api.github.com/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,10 +25,25 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGithubApi() : GithubClient =
+    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+    } else {
+        OkHttpClient
+            .Builder()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGithubApi(okHttpClient: OkHttpClient): GithubClient =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GithubClient::class.java)
-        }
+}
