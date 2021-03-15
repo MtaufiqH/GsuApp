@@ -10,10 +10,9 @@ import javax.inject.Inject
  *
  */
 class SearchUserRepoImpl @Inject constructor(
-    private val apiService : GithubClient
-) : SearchUserRepository{
-    override suspend fun getSearchUser(query: String): Response<SearchUserResponse> {
-        return apiService.getSearchUser(query)
-    }
+    private val apiService: GithubClient
+) {
+    suspend fun getSearchUser(query: String): Response<SearchUserResponse> =
+        apiService.getSearchUser(query)
 
 }
