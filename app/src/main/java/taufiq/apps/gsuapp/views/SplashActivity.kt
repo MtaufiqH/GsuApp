@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.WindowManager
 import android.viewbinding.library.activity.viewBinding
 import androidx.appcompat.app.AppCompatActivity
+import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
@@ -13,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_splash)
 
         @Suppress("DEPRECATION")
         window.setFlags(

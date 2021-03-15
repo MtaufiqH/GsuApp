@@ -3,11 +3,14 @@ package taufiq.apps.gsuapp.views
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import taufiq.apps.gsuapp.R
@@ -26,9 +29,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = ""
 
-        binding.etSearch.doAfterTextChanged { query ->
-            mainViewModel.getSearchUser(query.toString())
+        binding.etSearch.apply {
+            doAfterTextChanged { query -> mainViewModel.getSearchUser(query.toString()) }
+            doOnTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
+            doBeforeTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
         }
+
 
         mainViewModel.dataSearchUser.observe(this) { data ->
             binding.rvList.apply {
@@ -41,6 +47,13 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                 }.also {
                     it.setData(data.items)
+                    if (it.itemCount == -1) {
+                        binding.rvList.visibility = View.GONE
+                        binding.lottieState.visibility = View.VISIBLE
+                    } else {
+                        binding.rvList.visibility = View.VISIBLE
+                        binding.lottieState.visibility = View.GONE
+                    }
                 }
             }
         }
