@@ -7,4 +7,8 @@
     <string name="button_image_to_navigate_to_detail_page">button image to navigate to detail page</string>
     <string name="setting">Setting</string>
     <string name="favorite">favorite</string>
+    <string name="button_to_the_favorite_page">button to the favorite page</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="user_photo_profil">user photo profil</string>
 </resources>

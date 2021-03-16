@@ -50,9 +50,11 @@ class MainActivity : AppCompatActivity() {
                     if (it.itemCount == -1) {
                         binding.rvList.visibility = View.GONE
                         binding.lottieState.visibility = View.VISIBLE
+                        binding.pbId.visibility = View.VISIBLE
                     } else {
                         binding.rvList.visibility = View.VISIBLE
                         binding.lottieState.visibility = View.GONE
+                        binding.pbId.visibility = View.GONE
                     }
                 }
             }

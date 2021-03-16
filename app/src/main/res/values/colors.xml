@@ -9,4 +9,5 @@
     <color name="black_primary_light">#090909</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_background">#F6F6F6</color>
+    <color name="light_background">#484848</color>
 </resources>
