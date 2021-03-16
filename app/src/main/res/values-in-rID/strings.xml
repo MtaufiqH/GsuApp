@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GsuApp</string>
+    <string name="favorite">Favorit</string>
+    <string name="followers">Pengikut</string>
+    <string name="following">Mengikuti</string>
+    <string name="logo_git">logo git</string>
+    <string name="search_github_user_here">Cari user github di sini...</string>
+    <string name="header_text">tulisan atas</string>
+    <string name="user_avatar">foto user</string>
+    <string name="button_image_to_navigate_to_detail_page">tombol navigasi ke halaman detail</string>
+    <string name="setting">Pengaturan</string>
+    <string name="button_to_the_favorite_page">tombol untuk pindah ke halaman favorit</string>
+    <string name="user_photo_profil">foto profil user</string>
+</resources>
