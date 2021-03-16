@@ -14,7 +14,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import taufiq.apps.gsuapp.R
-import taufiq.apps.gsuapp.adapter.UserGithubListAdapter
+import taufiq.apps.gsuapp.adapter.main.UserGithubListAdapter
 import taufiq.apps.gsuapp.databinding.ActivityMainBinding
 import taufiq.apps.gsuapp.viewmodel.MainViewModel
 

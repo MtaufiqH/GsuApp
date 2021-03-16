@@ -1,4 +1,4 @@
-package taufiq.apps.gsuapp.adapter
+package taufiq.apps.gsuapp.adapter.main
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load

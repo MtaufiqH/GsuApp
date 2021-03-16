@@ -1,4 +1,4 @@
-package taufiq.apps.gsuapp.adapter
+package taufiq.apps.gsuapp.adapter.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
