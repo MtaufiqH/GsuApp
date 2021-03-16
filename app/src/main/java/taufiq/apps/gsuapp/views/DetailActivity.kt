@@ -23,6 +23,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title = ""
         val data = intent.getParcelableExtra<Item>(DETAIL_KEY)
         if (data != null) {
             detailViewModel.getDataDetail(data.login)

@@ -10,15 +10,17 @@ import taufiq.apps.gsuapp.views.fragment.FollowingFragment
  * Created By Taufiq on 3/16/2021.
  *
  */
+
 class PagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
-    override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
-        var fragment = Fragment()
+        var fragment: Fragment? = null
         when (position) {
-            1 -> fragment = FollowersFragment()
-            2 -> fragment = FollowingFragment()
+            0 -> fragment = FollowersFragment()
+            1 -> fragment = FollowingFragment()
         }
-        return fragment
+        return fragment as Fragment
     }
+
+    override fun getItemCount() = 2
 }
