@@ -1,8 +1,11 @@
 package taufiq.apps.gsuapp.data.remote.responses.search
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Item(
     @SerializedName("avatar_url")
     val avatarUrl: String,
@@ -42,4 +45,4 @@ data class Item(
     val type: String,
     @SerializedName("url")
     val url: String
-)
+) : Parcelable

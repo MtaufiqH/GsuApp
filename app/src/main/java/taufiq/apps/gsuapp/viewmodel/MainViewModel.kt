@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import taufiq.apps.gsuapp.data.remote.responses.search.SearchUserResponse
-import taufiq.apps.gsuapp.repository.SearchUserRepoImpl
+import taufiq.apps.gsuapp.repository.SearchGithubRepo
 import javax.inject.Inject
 
 /**
@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repo: SearchUserRepoImpl
+    private val repo: SearchGithubRepo
 ) : ViewModel() {
 
     private val _dataSearchUser = MutableLiveData<SearchUserResponse>()

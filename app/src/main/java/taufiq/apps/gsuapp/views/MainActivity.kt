@@ -1,5 +1,6 @@
 package taufiq.apps.gsuapp.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -26,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         supportActionBar?.title = ""
 
         binding.etSearch.apply {
@@ -40,21 +40,18 @@ class MainActivity : AppCompatActivity() {
             binding.rvList.apply {
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 adapter = UserGithubListAdapter(arrayListOf()) { items ->
-                    Toast.makeText(
-                        this@MainActivity,
-                        "you're clicked ${items.login}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // on click list item
+                    startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
+                        putExtra(DetailActivity.DETAIL_KEY, items)
+                    })
                 }.also {
                     it.setData(data.items)
                     if (it.itemCount == -1) {
                         binding.rvList.visibility = View.GONE
                         binding.lottieState.visibility = View.VISIBLE
-                        binding.pbId.visibility = View.VISIBLE
                     } else {
                         binding.rvList.visibility = View.VISIBLE
                         binding.lottieState.visibility = View.GONE
-                        binding.pbId.visibility = View.GONE
                     }
                 }
             }

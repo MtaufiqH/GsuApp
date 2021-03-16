@@ -73,14 +73,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_git_search_user" />
 
-    <ProgressBar
-        android:id="@+id/pb_id"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_list"
-        app:layout_constraintEnd_toEndOf="@+id/rv_list"
-        app:layout_constraintStart_toStartOf="@+id/rv_list"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

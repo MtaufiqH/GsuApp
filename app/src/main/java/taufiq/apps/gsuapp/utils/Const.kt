@@ -9,4 +9,5 @@ import taufiq.apps.gsuapp.BuildConfig
 object Const {
     const val BASE_URL = "https://api.github.com/"
     const val API_KEY = BuildConfig.API_KEY
+    const val ARG_OBJECT = "object"
 }

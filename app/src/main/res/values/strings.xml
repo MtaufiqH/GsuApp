@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GsuApp</string>
     <string name="logo_git">logo git</string>
-    <string name="search_github_user_here">Search github user here..</string>
+    <string name="search_github_user_here">Search github user here…</string>
     <string name="header_text">header text</string>
     <string name="user_avatar">user avatar</string>
     <string name="button_image_to_navigate_to_detail_page">button image to navigate to detail page</string>
@@ -11,4 +11,6 @@
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="user_photo_profil">user photo profil</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="dots_separator">.</string>
 </resources>
