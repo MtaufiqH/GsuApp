@@ -26,10 +26,12 @@ class FavoriteActivity : AppCompatActivity() {
                 adapter = FavoriteAdapter(arrayListOf()) {
                     startActivity(Intent(this@FavoriteActivity, DetailActivity::class.java).also {
                         it.putExtra(DetailActivity.DETAIL_KEY, data[0].userName)
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
                     })
                 }.also {
                     it.setData(data)
-                    if (it.itemCount == -1) {
+                    if (it.itemCount == -1 || it.itemCount == 0) {
                         binding.rvFavorite.visibility = View.GONE
                         binding.lottieState.visibility = View.VISIBLE
                     } else {

@@ -28,7 +28,7 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
 
         val detail = activity as DetailActivity
         val username = detail.getUsername()
-        followingViewModel.getFollowing(username)
+        followingViewModel.getFollowing(username!!)
 
         binding.apply {
             followingViewModel.dataFollowing.observe(viewLifecycleOwner) { followingData ->

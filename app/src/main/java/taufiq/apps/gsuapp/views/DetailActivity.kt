@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.main.PagerAdapter
 import taufiq.apps.gsuapp.data.local.FavoriteEntity
-import taufiq.apps.gsuapp.data.remote.responses.search.Item
 import taufiq.apps.gsuapp.databinding.ActivityDetailBinding
 import taufiq.apps.gsuapp.utils.ZoomOutPageTransformer
 import taufiq.apps.gsuapp.viewmodel.DetailViewModel
@@ -23,90 +22,105 @@ import taufiq.apps.gsuapp.viewmodel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
     private val binding by viewBinding<ActivityDetailBinding>()
     private val detailViewModel by viewModels<DetailViewModel>()
-    private lateinit var username: String
+    private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
-        val data = intent.getParcelableExtra<Item>(DETAIL_KEY)
+        val data = intent.getStringExtra(DETAIL_KEY)
         if (data != null) {
-            detailViewModel.getDataDetail(data.login)
-            username = data.login
-
+            detailViewModel.getDataDetail(data)
+            username = data
         }
 
         detailViewModel.dataDetail.observe(this) { dataDetail ->
-            dataDetail?.let { data ->
+            if (dataDetail != null) {
                 binding.apply {
-                    ivProfilDetail.load(data.avatarUrl) {
+                    ivProfilDetail.load(dataDetail.avatarUrl) {
                         transformations(CircleCropTransformation())
                     }
-                    tvFullName.text = data.name
-                    tvUserName.text = data.login
-                    tvUserLocation.text = data.location
-                    tvFollowerCount.text = data.followers.toString()
-                    tvFollowingCount.text = data.following.toString()
+                    tvFullName.text = dataDetail.name
+                    tvUserName.text = dataDetail.login
+                    tvUserLocation.text = dataDetail.location
+                    tvFollowerCount.text = dataDetail.followers.toString()
+                    tvFollowingCount.text = dataDetail.following.toString()
                 }
-            }
 
-            val user =
-                FavoriteEntity(
-                    dataDetail.login,
-                    dataDetail.name,
-                    dataDetail.avatarUrl,
-                    dataDetail.bio.toString(),
-                    dataDetail.company,
-                    dataDetail.followers,
-                    dataDetail.following,
-                    dataDetail.location,
-                    dataDetail.publicRepos,
-                    dataDetail.followersUrl,
-                    dataDetail.followingUrl
-                )
-
-            @Suppress("DEPRECATION")
-            binding.tbFavorite.apply {
-                isChecked = false
-                setBackgroundDrawable(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ic_favorite_border
+                @Suppress("DEPRECATION")
+                binding.tbFavorite.apply {
+                    isChecked = false
+                    setBackgroundDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_favorite_border
+                        )
                     )
-                )
-                setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        binding.tbFavorite.setBackgroundDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_favorite
+                    setOnCheckedChangeListener { _, isChecked ->
+                        if (isChecked) {
+                            binding.tbFavorite.setBackgroundDrawable(
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ic_favorite
+                                )
                             )
-                        )
+                            val user =
+                                FavoriteEntity(
+                                    dataDetail.login,
+                                    dataDetail.name,
+                                    dataDetail.avatarUrl,
+                                    dataDetail.bio.toString(),
+                                    dataDetail.company,
+                                    dataDetail.followers,
+                                    dataDetail.following,
+                                    dataDetail.location,
+                                    dataDetail.publicRepos,
+                                    dataDetail.followersUrl,
+                                    dataDetail.followingUrl
+                                )
 
-                        user.let {
-                            detailViewModel.insertToFavorite(it)
-                        }
-                        Toast.makeText(
-                            this@DetailActivity,
-                            context.getString(R.string.adding_to_fav),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else
-                        binding.tbFavorite.setBackgroundDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.ic_favorite_border
+                            user.let {
+                                detailViewModel.insertToFavorite(it)
+                            }
+                            Toast.makeText(
+                                this@DetailActivity,
+                                context.getString(R.string.adding_to_fav),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            binding.tbFavorite.setBackgroundDrawable(
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ic_favorite_border
+                                )
                             )
-                        )
-                    user.let {
-                        detailViewModel.deleteFromFavorite(it)
+                            val user =
+                                FavoriteEntity(
+                                    dataDetail.login,
+                                    dataDetail.name,
+                                    dataDetail.avatarUrl,
+                                    dataDetail.bio.toString(),
+                                    dataDetail.company,
+                                    dataDetail.followers,
+                                    dataDetail.following,
+                                    dataDetail.location,
+                                    dataDetail.publicRepos,
+                                    dataDetail.followersUrl,
+                                    dataDetail.followingUrl
+                                )
+                            user.let {
+                                detailViewModel.deleteFromFavorite(it)
+                            }
+                            Toast.makeText(
+                                this@DetailActivity,
+                                context.getString(R.string.delete_from_fav),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                    Toast.makeText(
-                        this@DetailActivity,
-                        context.getString(R.string.delete_from_fav),
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
+
             }
+
         }
 
         val pagerAdapter = PagerAdapter(this)
