@@ -26,10 +26,6 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        this.arguments?.getString("USERNAME")?.let {
-//            followingViewModel.getFollowing(it)
-//        }
-
         val detail = activity as DetailActivity
         val username = detail.getUsername()
         followingViewModel.getFollowing(username)
@@ -49,7 +45,7 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
                     }.also { adapter ->
                         adapter.setData(followingData)
                         val item = adapter.itemCount
-                        if (item <= 0) {
+                        if (item == 0 || item < -1) {
                             rvFollowing.visibility = View.INVISIBLE
                             lottieStateFollowing.visibility = View.VISIBLE
                         } else

@@ -1,14 +1,20 @@
 package taufiq.apps.gsuapp.di
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import taufiq.apps.gsuapp.BuildConfig
+import taufiq.apps.gsuapp.data.local.FavoriteDao
+import taufiq.apps.gsuapp.data.local.FavoriteDatabase
 import taufiq.apps.gsuapp.data.remote.client.GithubClient
+import taufiq.apps.gsuapp.utils.Const
 import taufiq.apps.gsuapp.utils.Const.API_KEY
 import taufiq.apps.gsuapp.utils.Const.BASE_URL
 import java.util.concurrent.TimeUnit
@@ -53,4 +59,17 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GithubClient::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideFavoriteDb(@ApplicationContext appContext: Context): FavoriteDatabase =
+        Room.databaseBuilder(appContext, FavoriteDatabase::class.java, Const.DB_NAME).build()
+
+    @Singleton
+    @Provides
+    fun providesFavDao(favoriteDatabase: FavoriteDatabase): FavoriteDao =
+        favoriteDatabase.getUserFavoriteDao()
+
+
 }

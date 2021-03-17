@@ -42,7 +42,7 @@ class FollowersFragment : Fragment(R.layout.followers_fragment_layout) {
                     }.also { adapter ->
                         adapter.setData(followers)
                         val item = adapter.itemCount
-                        if (item == -1) {
+                        if (item == 0 || item < -1) {
                             binding.rvFollowers.visibility = View.INVISIBLE
                             binding.lottieStateFollowers.visibility = View.VISIBLE
                         } else

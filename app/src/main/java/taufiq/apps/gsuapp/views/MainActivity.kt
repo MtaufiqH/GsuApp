@@ -9,7 +9,6 @@ import android.viewbinding.library.activity.viewBinding
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doBeforeTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,9 +29,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = ""
 
         binding.etSearch.apply {
-            doAfterTextChanged { query -> mainViewModel.getSearchUser(query.toString()) }
-            doOnTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
             doBeforeTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
+            doOnTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
+//            doAfterTextChanged { query -> mainViewModel.getSearchUser(query.toString()) }
         }
 
 
