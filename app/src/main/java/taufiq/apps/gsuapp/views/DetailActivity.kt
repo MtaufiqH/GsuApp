@@ -5,6 +5,7 @@ import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
@@ -45,6 +46,29 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
+
+        @Suppress("DEPRECATION")
+        binding.tbFavorite.apply {
+            isChecked = false
+            setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_border))
+            setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    binding.tbFavorite.setBackgroundDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_favorite
+                        )
+                    )
+                } else
+                    binding.tbFavorite.setBackgroundDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_favorite_border
+                        )
+                    )
+            }
+        }
+
 
         val pagerAdapter = PagerAdapter(this)
         binding.viewPagerId.adapter = pagerAdapter

@@ -7,6 +7,20 @@
     tools:context=".views.DetailActivity">
 
 
+    <ToggleButton
+        android:id="@+id/tb_favorite"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:contentDescription="@string/favorite_button"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/view2"
         android:layout_width="0dp"
@@ -65,16 +79,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
         tools:text="Jakarta Indonesia" />
 
-    <ImageView
-        android:id="@+id/fav_button"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:contentDescription="@string/favorite_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_favorite_border" />
 
     <ImageView
         android:id="@+id/imageView5"

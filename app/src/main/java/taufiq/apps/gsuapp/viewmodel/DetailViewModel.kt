@@ -24,7 +24,6 @@ class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : V
     val dataDetail: LiveData<DetailResponse> = _dataDetail
     private val _dataFollowers = MutableLiveData<FollowersResponses>()
     val dataFollowers: LiveData<FollowersResponses> = _dataFollowers
-
     private val _dataFollowing = MutableLiveData<FollowingResponses>()
     val dataFollowing: LiveData<FollowingResponses> = _dataFollowing
 
@@ -56,4 +55,5 @@ class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : V
                 Log.d("DetailViewModel", "getDataFollowing: ${it.message()} ${it.code()} ")
         }
     }
+
 }
