@@ -14,4 +14,6 @@
     <string name="user_photo_profil">foto profil user</string>
     <string name="favorite_button">tombol favorit</string>
     <string name="dots_separator">.</string>
+    <string name="adding_to_fav">ditambahkan ke favorit</string>
+    <string name="delete_from_fav">dihapus dari favorit</string>
 </resources>

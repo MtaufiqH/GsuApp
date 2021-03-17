@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import taufiq.apps.gsuapp.data.local.FavoriteEntity
 import taufiq.apps.gsuapp.data.remote.responses.detail.DetailResponse
 import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponses
 import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponses
 import taufiq.apps.gsuapp.repository.SearchGithubRepo
+import taufiq.apps.gsuapp.repository.UserFavoriteRepository
 import javax.inject.Inject
 
 /**
@@ -18,7 +20,10 @@ import javax.inject.Inject
  *
  */
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : ViewModel() {
+class DetailViewModel @Inject constructor(
+    private val api: SearchGithubRepo,
+    private val favRepo: UserFavoriteRepository
+) : ViewModel() {
 
     private val _dataDetail = MutableLiveData<DetailResponse>()
     val dataDetail: LiveData<DetailResponse> = _dataDetail
@@ -54,6 +59,14 @@ class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : V
             } else
                 Log.d("DetailViewModel", "getDataFollowing: ${it.message()} ${it.code()} ")
         }
+    }
+
+    fun insertToFavorite(user: FavoriteEntity) = viewModelScope.launch {
+        favRepo.insertUserToFavorite(user)
+    }
+
+    fun deleteFromFavorite(user: FavoriteEntity) = viewModelScope.launch {
+        favRepo.deleteUserFavorite(user)
     }
 
 }

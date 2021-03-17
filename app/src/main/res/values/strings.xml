@@ -13,4 +13,6 @@
     <string name="user_photo_profil">user photo profil</string>
     <string name="favorite_button">Favorite button</string>
     <string name="dots_separator">.</string>
+    <string name="adding_to_fav">Adding to favorite</string>
+    <string name="delete_from_fav">Delete from favorite</string>
 </resources>
