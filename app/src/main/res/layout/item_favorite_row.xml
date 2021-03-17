@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/root_view"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
@@ -15,9 +15,9 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="82dp"
+        android:layout_margin="8dp"
         android:elevation="8dp"
         app:cardCornerRadius="20dp"
-        android:layout_margin="8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_user"
+                android:id="@+id/iv_user_fav"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginStart="24dp"
@@ -40,17 +40,31 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/tv_username_fav"
+                android:id="@+id/tv_name_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_user"
-                app:layout_constraintStart_toEndOf="@+id/iv_user"
-                app:layout_constraintTop_toTopOf="@+id/iv_user"
-                tools:text="username" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_user_fav"
+                app:layout_constraintStart_toEndOf="@+id/iv_user_fav"
+                app:layout_constraintTop_toTopOf="@+id/iv_user_fav"
+                app:layout_constraintVertical_bias="0.17000002"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/tv_username_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_user_fav"
+                app:layout_constraintStart_toStartOf="@+id/tv_name_fav"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_fav"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Username" />
 
             <ImageView
                 android:id="@+id/iv_arrow_right"

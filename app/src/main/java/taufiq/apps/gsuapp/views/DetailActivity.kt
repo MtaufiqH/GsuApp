@@ -49,6 +49,21 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
+            val user =
+                FavoriteEntity(
+                    dataDetail.login,
+                    dataDetail.name,
+                    dataDetail.avatarUrl,
+                    dataDetail.bio.toString(),
+                    dataDetail.company,
+                    dataDetail.followers,
+                    dataDetail.following,
+                    dataDetail.location,
+                    dataDetail.publicRepos,
+                    dataDetail.followersUrl,
+                    dataDetail.followingUrl
+                )
+
             @Suppress("DEPRECATION")
             binding.tbFavorite.apply {
                 isChecked = false
@@ -66,20 +81,7 @@ class DetailActivity : AppCompatActivity() {
                                 R.drawable.ic_favorite
                             )
                         )
-                        val user =
-                            FavoriteEntity(
-                                dataDetail.login,
-                                dataDetail.name,
-                                dataDetail.avatarUrl,
-                                dataDetail.bio.toString(),
-                                dataDetail.company,
-                                dataDetail.followers,
-                                dataDetail.following,
-                                dataDetail.location,
-                                dataDetail.publicRepos,
-                                dataDetail.followersUrl,
-                                dataDetail.followingUrl
-                            )
+
                         user.let {
                             detailViewModel.insertToFavorite(it)
                         }
@@ -94,20 +96,6 @@ class DetailActivity : AppCompatActivity() {
                                 context,
                                 R.drawable.ic_favorite_border
                             )
-                        )
-                    val user =
-                        FavoriteEntity(
-                            dataDetail.login,
-                            dataDetail.name,
-                            dataDetail.avatarUrl,
-                            dataDetail.bio.toString(),
-                            dataDetail.company,
-                            dataDetail.followers,
-                            dataDetail.following,
-                            dataDetail.location,
-                            dataDetail.publicRepos,
-                            dataDetail.followersUrl,
-                            dataDetail.followingUrl
                         )
                     user.let {
                         detailViewModel.deleteFromFavorite(it)

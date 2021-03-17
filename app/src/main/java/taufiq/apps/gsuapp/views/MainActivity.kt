@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_favorite -> {
-                Toast.makeText(this, "to the fav page", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, FavoriteActivity::class.java))
             }
 
             R.id.menu_setting -> {
