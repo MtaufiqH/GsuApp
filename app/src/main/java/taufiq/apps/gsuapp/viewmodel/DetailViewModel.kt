@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import taufiq.apps.gsuapp.data.remote.responses.detail.DetailResponse
-import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponse
-import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponse
+import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponses
+import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponses
 import taufiq.apps.gsuapp.repository.SearchGithubRepo
 import javax.inject.Inject
 
@@ -22,10 +22,11 @@ class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : V
 
     private val _dataDetail = MutableLiveData<DetailResponse>()
     val dataDetail: LiveData<DetailResponse> = _dataDetail
-    private val _dataFollowers = MutableLiveData<FollowersResponse>()
-    val dataFollowers: LiveData<FollowersResponse> = _dataFollowers
-    private val _dataFollowing = MutableLiveData<FollowingResponse>()
-    val dataFollowing: LiveData<FollowingResponse> = _dataFollowing
+    private val _dataFollowers = MutableLiveData<FollowersResponses>()
+    val dataFollowers: LiveData<FollowersResponses> = _dataFollowers
+
+    private val _dataFollowing = MutableLiveData<FollowingResponses>()
+    val dataFollowing: LiveData<FollowingResponses> = _dataFollowing
 
     fun getDataDetail(username: String) = viewModelScope.launch {
         api.getDetailUser(username).also {
@@ -38,21 +39,21 @@ class DetailViewModel @Inject constructor(private val api: SearchGithubRepo) : V
     }
 
     fun getFollowers(userName: String) = viewModelScope.launch {
-        api.getFollower(userName).run {
-            if (this.isSuccessful && this.body() != null) {
-                _dataFollowers.value = this.body()
+        api.getFollower(userName).also {
+            if (it.isSuccessful) {
+                _dataFollowers.value = it.body()
             } else
-                Log.d("DetailViewModel", "getDataFollowers: ${this.message()} ${this.code()} ")
+                Log.d("DetailViewModel", "getDataFollowers: ${it.message()} ${it.code()} ")
         }
     }
 
 
     fun getFollowing(userName: String) = viewModelScope.launch {
-        api.getFollowing(userName).run {
-            if (this.isSuccessful && this.body() != null) {
-                _dataFollowing.value = this.body()
+        api.getFollowing(userName).also {
+            if (it.isSuccessful) {
+                _dataFollowing.value = it.body()
             } else
-                Log.d("DetailViewModel", "getDataFollowing: ${this.message()} ${this.code()} ")
+                Log.d("DetailViewModel", "getDataFollowing: ${it.message()} ${it.code()} ")
         }
     }
 }

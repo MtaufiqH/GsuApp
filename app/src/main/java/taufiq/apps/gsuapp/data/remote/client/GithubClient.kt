@@ -5,8 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import taufiq.apps.gsuapp.data.remote.responses.detail.DetailResponse
-import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponse
-import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponse
+import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponses
+import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponses
 import taufiq.apps.gsuapp.data.remote.responses.search.SearchUserResponse
 
 /**
@@ -21,9 +21,9 @@ interface GithubClient {
     suspend fun getDetailUser(@Path("username") userName: String): Response<DetailResponse>
 
     @GET("users/{username}/followers")
-    suspend fun getUserFollowers(@Path("username") userName: String): Response<FollowersResponse>
+    suspend fun getUserFollowers(@Path("username") userName: String): Response<FollowersResponses>
 
     @GET("users/{username}/following")
-    suspend fun getUserFollowing(@Path("username") userName: String): Response<FollowingResponse>
+    suspend fun getUserFollowing(@Path("username") userName: String): Response<FollowingResponses>
 
 }

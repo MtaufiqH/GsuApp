@@ -20,6 +20,7 @@ import taufiq.apps.gsuapp.viewmodel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
     private val binding by viewBinding<ActivityDetailBinding>()
     private val detailViewModel by viewModels<DetailViewModel>()
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,7 @@ class DetailActivity : AppCompatActivity() {
         val data = intent.getParcelableExtra<Item>(DETAIL_KEY)
         if (data != null) {
             detailViewModel.getDataDetail(data.login)
+            username = data.login
         }
 
         detailViewModel.dataDetail.observe(this) { dataDetail ->
@@ -51,6 +53,8 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
         binding.viewPagerId.setPageTransformer(ZoomOutPageTransformer())
     }
+
+    fun getUsername() = username
 
     companion object {
         @StringRes
