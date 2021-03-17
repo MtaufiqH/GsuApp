@@ -10,7 +10,10 @@ import taufiq.apps.gsuapp.databinding.ItemUserRowBinding
  * Created By Taufiq on 3/12/2021.
  *
  */
-class UserGithubListAdapter(private val item: ArrayList<Item>, val listener: (Item) -> Unit) :
+class UserGithubListAdapter(
+    private val item: ArrayList<Item>,
+    private val listener: (Item) -> Unit
+) :
     RecyclerView.Adapter<UserGithubListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserGithubListViewHolder {
