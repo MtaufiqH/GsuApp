@@ -1,5 +1,6 @@
 package taufiq.apps.gsuapp.data.local
 
+import android.database.Cursor
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -20,4 +21,7 @@ interface FavoriteUserDao {
 
     @Query("SELECT count(*) FROM favorite_table WHERE id = :id")
     fun checkUserFavs(id: Int): Int
+
+    @Query("SELECT * FROM favorite_table")
+    fun findAll(): Cursor
 }

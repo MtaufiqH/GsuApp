@@ -3,8 +3,11 @@
     package="taufiq.apps.gsuapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <permission
+        android:name="taufiq.apps.gsuapp.READ_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:name=".MainApplication"
@@ -14,6 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GsuApp">
+        <provider
+            android:name=".utils.providers.UserFavoriteProviders"
+            android:authorities="taufiq.apps.gsuapp"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="taufiq.apps.gsuapp.READ_DATABASE" />
 
         <activity android:name=".views.SettingsActivity" />
         <activity android:name=".views.FavoriteActivity" />
@@ -38,6 +47,5 @@
             android:enabled="true"
             android:exported="true" />
     </application>
-
 
 </manifest>

@@ -69,4 +69,5 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation "androidx.preference:preference-ktx:1.1.1"
 }
