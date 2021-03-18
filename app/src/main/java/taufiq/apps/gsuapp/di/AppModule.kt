@@ -11,8 +11,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import taufiq.apps.gsuapp.BuildConfig
-import taufiq.apps.gsuapp.data.local.FavoriteDao
 import taufiq.apps.gsuapp.data.local.FavoriteDatabase
+import taufiq.apps.gsuapp.data.local.FavoriteUserDao
 import taufiq.apps.gsuapp.data.remote.client.GithubClient
 import taufiq.apps.gsuapp.utils.Const
 import taufiq.apps.gsuapp.utils.Const.API_KEY
@@ -68,8 +68,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesFavDao(favoriteDatabase: FavoriteDatabase): FavoriteDao =
+    fun providesFavDao(favoriteDatabase: FavoriteDatabase): FavoriteUserDao =
         favoriteDatabase.getUserFavoriteDao()
-
-
 }

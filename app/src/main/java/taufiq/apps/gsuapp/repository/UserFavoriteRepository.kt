@@ -1,24 +1,23 @@
 package taufiq.apps.gsuapp.repository
 
-import taufiq.apps.gsuapp.data.local.FavoriteDao
-import taufiq.apps.gsuapp.data.local.FavoriteEntity
+import taufiq.apps.gsuapp.data.local.FavoriteUser
+import taufiq.apps.gsuapp.data.local.FavoriteUserDao
 import javax.inject.Inject
 
 /**
  * Created By Taufiq on 3/17/2021.
  *
  */
-class UserFavoriteRepository @Inject constructor(private val dao: FavoriteDao) {
+class UserFavoriteRepository @Inject constructor(private val dao: FavoriteUserDao) {
 
     val allFavoriteUser = dao.getAllFavoriteUser()
 
-    fun getFavUserByUserName(username: String) =
-        dao.getFavoriteUser(username)
-
-    suspend fun insertUserToFavorite(user: FavoriteEntity) =
+    suspend fun insertUserToFavorite(user: FavoriteUser) =
         dao.insertUserToFavorite(user)
 
-    suspend fun deleteUserFavorite(user: FavoriteEntity) =
+    suspend fun deleteUserFavorite(user: FavoriteUser) =
         dao.deleteUserFromFavorite(user)
 
+    suspend fun checkUserFavorite(id: Int) =
+        dao.checkUserFavs(id)
 }

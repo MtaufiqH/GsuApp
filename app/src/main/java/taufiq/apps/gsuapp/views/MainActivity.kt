@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                     // on click list item
                     startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
                         putExtra(DetailActivity.DETAIL_KEY, items.login)
+                        putExtra(DetailActivity.DETAIL_KEY, items.id)
                     })
                 }.also {
                     it.setData(data.items)

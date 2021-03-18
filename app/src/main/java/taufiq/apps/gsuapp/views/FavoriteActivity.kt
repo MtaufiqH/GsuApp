@@ -25,7 +25,7 @@ class FavoriteActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(this@FavoriteActivity)
                 adapter = FavoriteAdapter(arrayListOf()) {
                     startActivity(Intent(this@FavoriteActivity, DetailActivity::class.java).also {
-                        it.putExtra(DetailActivity.DETAIL_KEY, data[0].userName)
+                        it.putExtra(DetailActivity.DETAIL_KEY, data[0].username)
                         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
                     })

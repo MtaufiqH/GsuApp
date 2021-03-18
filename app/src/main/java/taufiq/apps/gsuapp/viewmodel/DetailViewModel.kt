@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import taufiq.apps.gsuapp.data.local.FavoriteEntity
+import taufiq.apps.gsuapp.data.local.FavoriteUser
 import taufiq.apps.gsuapp.data.remote.responses.detail.DetailResponse
 import taufiq.apps.gsuapp.data.remote.responses.follower.FollowersResponses
 import taufiq.apps.gsuapp.data.remote.responses.following.FollowingResponses
@@ -31,6 +31,8 @@ class DetailViewModel @Inject constructor(
     val dataFollowers: LiveData<FollowersResponses> = _dataFollowers
     private val _dataFollowing = MutableLiveData<FollowingResponses>()
     val dataFollowing: LiveData<FollowingResponses> = _dataFollowing
+
+    val isFavorit = MutableLiveData(false)
 
     fun getDataDetail(username: String) = viewModelScope.launch {
         api.getDetailUser(username).also {
@@ -61,12 +63,14 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun insertToFavorite(user: FavoriteEntity) = viewModelScope.launch {
+    fun insertToFavorite(user: FavoriteUser) = viewModelScope.launch {
         favRepo.insertUserToFavorite(user)
     }
 
-    fun deleteFromFavorite(user: FavoriteEntity) = viewModelScope.launch {
+    fun deleteFromFavorite(user: FavoriteUser) = viewModelScope.launch {
         favRepo.deleteUserFavorite(user)
     }
+
+    suspend fun checkUserFavorite(id: Int) = favRepo.checkUserFavorite(id)
 
 }

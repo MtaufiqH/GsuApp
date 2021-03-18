@@ -6,14 +6,16 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.main.PagerAdapter
-import taufiq.apps.gsuapp.data.local.FavoriteEntity
+import taufiq.apps.gsuapp.data.local.FavoriteUser
 import taufiq.apps.gsuapp.databinding.ActivityDetailBinding
 import taufiq.apps.gsuapp.utils.ZoomOutPageTransformer
 import taufiq.apps.gsuapp.viewmodel.DetailViewModel
@@ -27,55 +29,51 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
-        val data = intent.getStringExtra(DETAIL_KEY)
-        if (data != null) {
-            detailViewModel.getDataDetail(data)
-            username = data
-        }
+        val myUsername = intent.getStringExtra(DETAIL_KEY)
+        val id = intent.getIntExtra(DETAIL_KEY, 0)
+        if (myUsername != null) {
+            detailViewModel.getDataDetail(myUsername)
+            username = myUsername
 
-        detailViewModel.dataDetail.observe(this) { dataDetail ->
-            if (dataDetail != null) {
-                binding.apply {
-                    ivProfilDetail.load(dataDetail.avatarUrl) {
-                        transformations(CircleCropTransformation())
+
+            detailViewModel.dataDetail.observe(this) { dataDetail ->
+                if (dataDetail != null) {
+                    binding.apply {
+                        ivProfilDetail.load(dataDetail.avatarUrl) {
+                            transformations(CircleCropTransformation())
+                        }
+                        tvFullName.text = dataDetail.name
+                        tvUserName.text = dataDetail.login
+                        tvUserLocation.text = dataDetail.location
+                        tvFollowerCount.text = dataDetail.followers.toString()
+                        tvFollowingCount.text = dataDetail.following.toString()
                     }
-                    tvFullName.text = dataDetail.name
-                    tvUserName.text = dataDetail.login
-                    tvUserLocation.text = dataDetail.location
-                    tvFollowerCount.text = dataDetail.followers.toString()
-                    tvFollowingCount.text = dataDetail.following.toString()
-                }
-
-                @Suppress("DEPRECATION")
-                binding.tbFavorite.apply {
-                    isChecked = false
-                    setBackgroundDrawable(
-                        ContextCompat.getDrawable(
-                            context,
-                            R.drawable.ic_favorite_border
-                        )
-                    )
-                    setOnCheckedChangeListener { _, isChecked ->
-                        if (isChecked) {
-                            binding.tbFavorite.setBackgroundDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.ic_favorite
-                                )
-                            )
+                    var isFavorite = false
+                    lifecycleScope.launchWhenCreated {
+                        withContext(Dispatchers.IO) {
+                            val userCount = detailViewModel.checkUserFavorite(id)
+                            withContext(Dispatchers.Main) {
+                                if (userCount != null) {
+                                    if (userCount > 0) {
+                                        binding.tbFavorite.isChecked = true
+                                        isFavorite = true
+                                    } else {
+                                        binding.tbFavorite.isChecked = false
+                                        isFavorite = false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    binding.tbFavorite.setOnClickListener {
+                        isFavorite = !isFavorite
+                        if (isFavorite) {
                             val user =
-                                FavoriteEntity(
+                                FavoriteUser(
+                                    dataDetail.id,
                                     dataDetail.login,
-                                    dataDetail.name,
                                     dataDetail.avatarUrl,
-                                    dataDetail.bio.toString(),
-                                    dataDetail.company,
-                                    dataDetail.followers,
-                                    dataDetail.following,
-                                    dataDetail.location,
-                                    dataDetail.publicRepos,
-                                    dataDetail.followersUrl,
-                                    dataDetail.followingUrl
+                                    dataDetail.name
                                 )
 
                             user.let {
@@ -83,42 +81,30 @@ class DetailActivity : AppCompatActivity() {
                             }
                             Toast.makeText(
                                 this@DetailActivity,
-                                context.getString(R.string.adding_to_fav),
+                                this.getString(R.string.adding_to_fav),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            binding.tbFavorite.setBackgroundDrawable(
-                                ContextCompat.getDrawable(
-                                    context,
-                                    R.drawable.ic_favorite_border
-                                )
-                            )
                             val user =
-                                FavoriteEntity(
+                                FavoriteUser(
+                                    dataDetail.id,
                                     dataDetail.login,
-                                    dataDetail.name,
                                     dataDetail.avatarUrl,
-                                    dataDetail.bio.toString(),
-                                    dataDetail.company,
-                                    dataDetail.followers,
-                                    dataDetail.following,
-                                    dataDetail.location,
-                                    dataDetail.publicRepos,
-                                    dataDetail.followersUrl,
-                                    dataDetail.followingUrl
+                                    dataDetail.name
                                 )
                             user.let {
                                 detailViewModel.deleteFromFavorite(it)
                             }
                             Toast.makeText(
                                 this@DetailActivity,
-                                context.getString(R.string.delete_from_fav),
+                                this.getString(R.string.delete_from_fav),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                        binding.tbFavorite.isChecked = isFavorite
                     }
-                }
 
+                }
             }
 
         }
@@ -132,6 +118,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun getUsername() = username
+
 
     companion object {
         @StringRes
