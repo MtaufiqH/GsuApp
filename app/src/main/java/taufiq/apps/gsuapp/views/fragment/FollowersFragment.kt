@@ -24,9 +24,13 @@ class FollowersFragment : Fragment(R.layout.followers_fragment_layout) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val detail = activity as DetailActivity
-        val username = detail.getUsername()
-        followersViewModel.getFollowers(username!!)
+//        val detail = activity as DetailActivity
+//        val username = detail.getUsername()
+//            followersViewModel.getFollowers(username)
+        val argument = arguments
+        val username = argument?.getString(DetailActivity.DETAIL_KEY).toString()
+        followersViewModel.getFollowers(username)
+
 
         followersViewModel.dataFollowers.observe(viewLifecycleOwner) { followers ->
             if (followers != null) {

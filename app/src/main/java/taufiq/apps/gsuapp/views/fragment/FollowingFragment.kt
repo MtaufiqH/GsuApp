@@ -26,9 +26,12 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val detail = activity as DetailActivity
-        val username = detail.getUsername()
-        followingViewModel.getFollowing(username!!)
+//        val detail = activity as DetailActivity
+//        val username = detail.getUsername()
+//        followingViewModel.getFollowing(username!!)
+        val argument = arguments
+        val username = argument?.getString(DetailActivity.DETAIL_KEY).toString()
+        followingViewModel.getFollowing(username)
 
         binding.apply {
             followingViewModel.dataFollowing.observe(viewLifecycleOwner) { followingData ->

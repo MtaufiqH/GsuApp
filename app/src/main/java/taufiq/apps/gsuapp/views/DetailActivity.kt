@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.main.PagerAdapter
 import taufiq.apps.gsuapp.data.local.FavoriteUser
+import taufiq.apps.gsuapp.data.remote.responses.search.Item
 import taufiq.apps.gsuapp.databinding.ActivityDetailBinding
 import taufiq.apps.gsuapp.utils.ZoomOutPageTransformer
 import taufiq.apps.gsuapp.viewmodel.DetailViewModel
@@ -24,17 +25,33 @@ import taufiq.apps.gsuapp.viewmodel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
     private val binding by viewBinding<ActivityDetailBinding>()
     private val detailViewModel by viewModels<DetailViewModel>()
-    private var username: String? = null
+//    private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
-        val myUsername = intent.getStringExtra(DETAIL_KEY)
-        val id = intent.getIntExtra(DETAIL_KEY, 0)
+        val myUsername = intent.getParcelableExtra<Item>(DETAIL_KEY)
+        val id = intent.getIntExtra(DETAIL_ID, 0)
         if (myUsername != null) {
-            detailViewModel.getDataDetail(myUsername)
-            username = myUsername
+            detailViewModel.getDataDetail(myUsername.login)
+            //            username = myUsername
 
+
+            var isFavorite = false
+            lifecycleScope.launchWhenCreated {
+                withContext(Dispatchers.IO) {
+                    val userCount = detailViewModel.checkUserFavorite(id)
+                    withContext(Dispatchers.Main) {
+                        if (userCount > 0) {
+                            binding.tbFavorite.isChecked = true
+                            isFavorite = true
+                        } else {
+                            binding.tbFavorite.isChecked = false
+                            isFavorite = false
+                        }
+                    }
+                }
+            }
 
             detailViewModel.dataDetail.observe(this) { dataDetail ->
                 if (dataDetail != null) {
@@ -48,31 +65,15 @@ class DetailActivity : AppCompatActivity() {
                         tvFollowerCount.text = dataDetail.followers.toString()
                         tvFollowingCount.text = dataDetail.following.toString()
                     }
-                    var isFavorite = false
-                    lifecycleScope.launchWhenCreated {
-                        withContext(Dispatchers.IO) {
-                            val userCount = detailViewModel.checkUserFavorite(id)
-                            withContext(Dispatchers.Main) {
-                                if (userCount != null) {
-                                    if (userCount > 0) {
-                                        binding.tbFavorite.isChecked = true
-                                        isFavorite = true
-                                    } else {
-                                        binding.tbFavorite.isChecked = false
-                                        isFavorite = false
-                                    }
-                                }
-                            }
-                        }
-                    }
+
                     binding.tbFavorite.setOnClickListener {
                         isFavorite = !isFavorite
                         if (isFavorite) {
                             val user =
                                 FavoriteUser(
-                                    dataDetail.id,
-                                    dataDetail.login,
-                                    dataDetail.avatarUrl,
+                                    id,
+                                    myUsername.login,
+                                    myUsername.avatarUrl,
                                     dataDetail.name
                                 )
 
@@ -87,9 +88,9 @@ class DetailActivity : AppCompatActivity() {
                         } else {
                             val user =
                                 FavoriteUser(
-                                    dataDetail.id,
-                                    dataDetail.login,
-                                    dataDetail.avatarUrl,
+                                    id,
+                                    myUsername.login,
+                                    myUsername.avatarUrl,
                                     dataDetail.name
                                 )
                             user.let {
@@ -103,13 +104,15 @@ class DetailActivity : AppCompatActivity() {
                         }
                         binding.tbFavorite.isChecked = isFavorite
                     }
-
                 }
             }
-
         }
 
-        val pagerAdapter = PagerAdapter(this)
+        val bundle = Bundle().apply {
+            putString(DETAIL_KEY, myUsername?.login)
+        }
+
+        val pagerAdapter = PagerAdapter(this, bundle)
         binding.viewPagerId.adapter = pagerAdapter
         TabLayoutMediator(binding.tabsId, binding.viewPagerId) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
@@ -117,12 +120,13 @@ class DetailActivity : AppCompatActivity() {
         binding.viewPagerId.setPageTransformer(ZoomOutPageTransformer())
     }
 
-    fun getUsername() = username
+//    fun getUsername() = username
 
 
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(R.string.followers, R.string.following)
         const val DETAIL_KEY = "detail_key"
+        const val DETAIL_ID = "detail_id"
     }
 }

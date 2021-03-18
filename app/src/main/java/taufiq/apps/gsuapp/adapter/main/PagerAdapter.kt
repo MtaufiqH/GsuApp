@@ -1,5 +1,6 @@
 package taufiq.apps.gsuapp.adapter.main
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,7 +12,8 @@ import taufiq.apps.gsuapp.views.fragment.FollowingFragment
  *
  */
 
-class PagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
+class PagerAdapter(activity: AppCompatActivity, data: Bundle) : FragmentStateAdapter(activity) {
+    private var bundles: Bundle = data
 
     override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
@@ -19,6 +21,7 @@ class PagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity)
             0 -> fragment = FollowersFragment()
             1 -> fragment = FollowingFragment()
         }
+        fragment?.arguments = this.bundles
         return fragment as Fragment
     }
 

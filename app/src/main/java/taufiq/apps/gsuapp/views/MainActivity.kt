@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
                 adapter = UserGithubListAdapter(arrayListOf()) { items ->
                     // on click list item
                     startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.DETAIL_KEY, items.login)
-                        putExtra(DetailActivity.DETAIL_KEY, items.id)
+                        putExtra(DetailActivity.DETAIL_KEY, items)
+                        putExtra(DetailActivity.DETAIL_ID, items.id)
                     })
                 }.also {
                     it.setData(data.items)
