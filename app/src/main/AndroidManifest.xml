@@ -3,6 +3,8 @@
     package="taufiq.apps.gsuapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".MainApplication"
@@ -12,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GsuApp">
-        <activity android:name=".views.FavoriteActivity"></activity>
+
+        <activity android:name=".views.SettingsActivity" />
+        <activity android:name=".views.FavoriteActivity" />
         <activity android:name=".views.DetailActivity" />
         <activity
             android:name=".views.SplashActivity"
@@ -28,6 +32,12 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <receiver
+            android:name=".utils.alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
+
 
 </manifest>

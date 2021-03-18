@@ -16,4 +16,10 @@
     <string name="dots_separator">.</string>
     <string name="adding_to_fav">ditambahkan ke favorit</string>
     <string name="delete_from_fav">dihapus dari favorit</string>
+    <string name="set_reminder">reminder dipasang</string>
+    <string name="change_language">Ganti Bahasa</string>
+    <string name="github_search">Pengingat Pencarian Github</string>
+    <string name="alarm_message">Mari cari pengguna favorit kamu di Github</string>
+    <string name="repeating_on">"Alarm berulang dipasang. "</string>
+    <string name="repeating_off">Alarm berulang dibatalkan</string>
 </resources>

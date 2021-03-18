@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.activity.viewBinding
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.menu_setting -> {
-                Toast.makeText(this, "to the setting page", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
