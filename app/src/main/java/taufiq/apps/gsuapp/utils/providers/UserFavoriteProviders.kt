@@ -10,10 +10,11 @@ import taufiq.apps.gsuapp.data.local.FavoriteUserDao
 import javax.inject.Inject
 
 class UserFavoriteProviders : ContentProvider() {
+    private lateinit var userDao: FavoriteUserDao
 
     companion object {
-        const val AUTHORITY_URI = "taufiq.apps.gsuapp"
-        const val TABLE_NAME = "favorite_table"
+        private const val AUTHORITY_URI = "taufiq.apps.gsuapp"
+        private const val TABLE_NAME = "favorite_table"
         const val ID_FAVORITE_USER = 1
         val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
@@ -22,17 +23,13 @@ class UserFavoriteProviders : ContentProvider() {
         }
     }
 
-    @Inject
-    private lateinit var dao: FavoriteUserDao
 
     @Inject
     private lateinit var db: FavoriteDatabase
 
     override fun onCreate(): Boolean {
-        dao = context.let {
-            db.getUserFavoriteDao()
-        }
-        return false
+        userDao = db.getUserFavoriteDao()
+        return true
     }
 
     override fun query(
@@ -42,7 +39,7 @@ class UserFavoriteProviders : ContentProvider() {
         val cursor: Cursor?
         when (uriMatcher.match(uri)) {
             ID_FAVORITE_USER -> {
-                cursor = dao.findAll()
+                cursor = userDao.findAll()
                 if (context != null) {
                     cursor.setNotificationUri(context?.contentResolver, uri)
                 }

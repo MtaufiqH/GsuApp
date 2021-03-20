@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Consumer App</string>
+    <string name="avatar_user_favorite">avatar user Favorite</string>
 </resources>
