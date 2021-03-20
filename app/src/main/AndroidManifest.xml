@@ -8,6 +8,9 @@
     <permission
         android:name="taufiq.apps.gsuapp.READ_DATABASE"
         android:protectionLevel="normal" />
+    <permission
+        android:name="taufiq.apps.gsuapp.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:name=".MainApplication"

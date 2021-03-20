@@ -11,7 +11,6 @@ import taufiq.apps.consumerapp.databinding.ItemFavoriteRowBinding
  */
 class FavoriteAdapter(
     private val item: ArrayList<FavoriteUser>,
-    private val listener: (FavoriteUser) -> Unit
 ) :
     RecyclerView.Adapter<FavoriteViewHolder>() {
 
@@ -26,7 +25,7 @@ class FavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-        holder.bindList(item[position], listener)
+        holder.bindList(item[position])
     }
 
     override fun getItemCount(): Int = item.size

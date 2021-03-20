@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="taufiq.apps.consumerapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="taufiq.apps.gsuapp.READ_DATABASE" />
+    <uses-permission android:name="taufiq.apps.gsuapp.WRITE_DATABASE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
