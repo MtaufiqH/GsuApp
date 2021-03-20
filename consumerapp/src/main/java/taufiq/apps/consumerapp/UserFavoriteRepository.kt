@@ -1,6 +1,8 @@
 package taufiq.apps.consumerapp
 
 import androidx.lifecycle.liveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -10,6 +12,9 @@ import javax.inject.Inject
 class UserFavoriteRepository @Inject constructor(private val data: UserDataSource) {
 
     val allFavoriteUser = liveData {
-        emit(data.getUsers())
+        withContext(Dispatchers.IO) {
+            emit(data.getUsers())
+        }
+
     }
 }
