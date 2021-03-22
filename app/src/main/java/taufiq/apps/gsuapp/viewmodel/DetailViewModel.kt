@@ -71,6 +71,6 @@ class DetailViewModel @Inject constructor(
         favRepo.deleteUserFavorite(user)
     }
 
-    suspend fun checkUserFavorite(id: Int) = favRepo.checkUserFavorite(id)
+     fun checkUserFavorite(id: Int) = favRepo.checkUserFavorite(id)
 
 }

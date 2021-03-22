@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 adapter = UserGithubListAdapter(arrayListOf()) { items ->
                     startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.DETAIL_KEY, items)
+                        putExtra(DetailActivity.DETAIL_KEY, items.login)
                         putExtra(DetailActivity.DETAIL_ID, items.id)
                     })
                 }.also {

@@ -23,11 +23,10 @@ class FavoriteActivity : AppCompatActivity() {
         favViewModel.allFavoriteUser.observe(this) { data ->
             binding.rvFavorite.apply {
                 layoutManager = LinearLayoutManager(this@FavoriteActivity)
-                adapter = FavoriteAdapter(arrayListOf()) {
+                adapter = FavoriteAdapter(arrayListOf()) { favsData ->
                     startActivity(Intent(this@FavoriteActivity, DetailActivity::class.java).also {
-                        it.putExtra(DetailActivity.DETAIL_KEY, data[0].username)
+                        it.putExtra(DetailActivity.DETAIL_KEY, favsData.username)
                         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-
                     })
                 }.also {
                     it.setData(data)

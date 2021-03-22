@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.main.PagerAdapter
 import taufiq.apps.gsuapp.data.local.FavoriteUser
-import taufiq.apps.gsuapp.data.remote.responses.search.Item
 import taufiq.apps.gsuapp.databinding.ActivityDetailBinding
 import taufiq.apps.gsuapp.utils.ZoomOutPageTransformer
 import taufiq.apps.gsuapp.viewmodel.DetailViewModel
@@ -29,10 +28,10 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
-        val myUsername = intent.getParcelableExtra<Item>(DETAIL_KEY)
+        val myUsername = intent.getStringExtra(DETAIL_KEY)
         val id = intent.getIntExtra(DETAIL_ID, 0)
         if (myUsername != null) {
-            detailViewModel.getDataDetail(myUsername.login)
+            detailViewModel.getDataDetail(myUsername)
 
             var isFavorite = false
             lifecycleScope.launchWhenCreated {
@@ -66,14 +65,14 @@ class DetailActivity : AppCompatActivity() {
 
                     binding.tbFavorite.setOnClickListener {
                         isFavorite = !isFavorite
-                        val name = dataDetail.name
+                        val name = dataDetail.name ?: ""
                         if (isFavorite) {
 
                             val user =
                                 FavoriteUser(
-                                    myUsername.id,
-                                    myUsername.login,
-                                    myUsername.avatarUrl,
+                                    dataDetail.id,
+                                    dataDetail.login,
+                                    dataDetail.avatarUrl,
                                     name
                                 )
 
@@ -88,9 +87,9 @@ class DetailActivity : AppCompatActivity() {
                         } else {
                             val user =
                                 FavoriteUser(
-                                    myUsername.id,
-                                    myUsername.login,
-                                    myUsername.avatarUrl,
+                                    dataDetail.id,
+                                    dataDetail.login,
+                                    dataDetail.avatarUrl,
                                     name
                                 )
                             user.let {
@@ -109,7 +108,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val bundle = Bundle().apply {
-            putString(DETAIL_KEY, myUsername?.login)
+            putString(DETAIL_KEY, myUsername)
         }
 
         val pagerAdapter = PagerAdapter(this, bundle)

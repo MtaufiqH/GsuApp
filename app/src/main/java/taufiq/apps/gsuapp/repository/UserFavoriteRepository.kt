@@ -18,6 +18,6 @@ class UserFavoriteRepository @Inject constructor(private val dao: FavoriteUserDa
     suspend fun deleteUserFavorite(user: FavoriteUser) =
         dao.deleteUserFromFavorite(user)
 
-    suspend fun checkUserFavorite(id: Int) =
+     fun checkUserFavorite(id: Int) =
         dao.checkUserFavs(id)
 }
