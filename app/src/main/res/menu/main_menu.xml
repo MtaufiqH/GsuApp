@@ -3,13 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_favorite"
-        android:icon="@drawable/ic_favorite"
-        app:showAsAction="always"
-        android:title="@string/favorite" />
-    <item
-        android:id="@+id/menu_setting"
-        android:icon="@drawable/ic_settings"
-        app:showAsAction="always"
-        android:title="@string/setting" />
+        android:id="@+id/search_menu"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <group android:menuCategory="container">
+        <item
+            android:id="@+id/menu_favorite"
+            android:icon="@drawable/ic_favorite"
+            android:title="@string/favorite"
+            app:showAsAction="collapseActionView" />
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/setting"
+            app:showAsAction="collapseActionView" />
+    </group>
+
+
 </menu>

@@ -21,4 +21,8 @@
     <string name="alarm_message">Let\'s search your favorite user in Github Now.</string>
     <string name="repeating_on">Repeating alarm set up</string>
     <string name="repeating_off">Repeating alarm cancel</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_enabled">widget is enabled</string>
+    <string name="widget_disabled">widget was disabled</string>
+    <string name="search">search</string>
 </resources>

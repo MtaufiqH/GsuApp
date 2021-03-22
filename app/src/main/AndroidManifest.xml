@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GsuApp">
+
         <provider
             android:name=".utils.providers.UserFavoriteProviders"
             android:authorities="taufiq.apps.gsuapp"

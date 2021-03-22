@@ -1,5 +1,6 @@
 package taufiq.apps.gsuapp.views
 
+import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -8,8 +9,7 @@ import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import taufiq.apps.gsuapp.R
@@ -25,20 +25,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         supportActionBar?.title = ""
-
-        binding.etSearch.apply {
-            doOnTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
-            doAfterTextChanged { query -> mainViewModel.getSearchUser(query.toString()) }
-//            doBeforeTextChanged { text, _, _, _ -> mainViewModel.getSearchUser(text.toString()) }
-        }
-
 
         mainViewModel.dataSearchUser.observe(this) { data ->
             binding.rvList.apply {
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 adapter = UserGithubListAdapter(arrayListOf()) { items ->
-                    // on click list item
                     startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
                         putExtra(DetailActivity.DETAIL_KEY, items)
                         putExtra(DetailActivity.DETAIL_ID, items.id)
@@ -59,7 +52,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
+        val searchView = menu?.findItem(R.id.search_menu)?.actionView as SearchView?
+        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView?.queryHint = resources.getString(R.string.search_github_user_here)
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                mainViewModel.getSearchUser(query.toString())
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?) = false
+        })
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -67,7 +73,6 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_favorite -> {
                 startActivity(Intent(this, FavoriteActivity::class.java))
             }
-
             R.id.menu_setting -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
             }

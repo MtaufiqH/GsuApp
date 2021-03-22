@@ -25,7 +25,6 @@ import taufiq.apps.gsuapp.viewmodel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
     private val binding by viewBinding<ActivityDetailBinding>()
     private val detailViewModel by viewModels<DetailViewModel>()
-//    private var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +33,6 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra(DETAIL_ID, 0)
         if (myUsername != null) {
             detailViewModel.getDataDetail(myUsername.login)
-            //            username = myUsername
-
 
             var isFavorite = false
             lifecycleScope.launchWhenCreated {
@@ -58,6 +55,7 @@ class DetailActivity : AppCompatActivity() {
                     binding.apply {
                         ivProfilDetail.load(dataDetail.avatarUrl) {
                             transformations(CircleCropTransformation())
+                            placeholder(R.drawable.ic_user_plcholder)
                         }
                         tvFullName.text = dataDetail.name
                         tvUserName.text = dataDetail.login
@@ -68,13 +66,15 @@ class DetailActivity : AppCompatActivity() {
 
                     binding.tbFavorite.setOnClickListener {
                         isFavorite = !isFavorite
+                        val name = dataDetail.name
                         if (isFavorite) {
+
                             val user =
                                 FavoriteUser(
-                                    id,
+                                    myUsername.id,
                                     myUsername.login,
                                     myUsername.avatarUrl,
-                                    dataDetail.name
+                                    name
                                 )
 
                             user.let {
@@ -88,10 +88,10 @@ class DetailActivity : AppCompatActivity() {
                         } else {
                             val user =
                                 FavoriteUser(
-                                    id,
+                                    myUsername.id,
                                     myUsername.login,
                                     myUsername.avatarUrl,
-                                    dataDetail.name
+                                    name
                                 )
                             user.let {
                                 detailViewModel.deleteFromFavorite(it)
@@ -119,9 +119,6 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
         binding.viewPagerId.setPageTransformer(ZoomOutPageTransformer())
     }
-
-//    fun getUsername() = username
-
 
     companion object {
         @StringRes

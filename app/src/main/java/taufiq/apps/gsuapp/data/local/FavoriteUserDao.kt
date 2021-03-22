@@ -24,4 +24,5 @@ interface FavoriteUserDao {
 
     @Query("SELECT * FROM favorite_table")
     fun findAll(): Cursor
+
 }

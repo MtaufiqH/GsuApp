@@ -22,4 +22,8 @@
     <string name="alarm_message">Mari cari pengguna favorit kamu di Github</string>
     <string name="repeating_on">"Alarm berulang dipasang. "</string>
     <string name="repeating_off">Alarm berulang dibatalkan</string>
+    <string name="add_widget">tambah widget</string>
+    <string name="widget_disabled">widget di matikan</string>
+    <string name="widget_enabled">widget di aktifkan</string>
+    <string name="search">cari</string>
 </resources>
