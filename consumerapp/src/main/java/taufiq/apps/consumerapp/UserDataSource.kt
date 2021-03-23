@@ -26,7 +26,6 @@ class UserDataSource(private val contentResolver: ContentResolver) {
                         getInt(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumn.ID)),
                         getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumn.USERNAME)),
                         getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumn.AVATAR_URL)),
-                        getString(getColumnIndexOrThrow(DatabaseContract.FavoriteUserColumn.NAME)),
                     )
                 )
             }

@@ -18,6 +18,7 @@
         android:contentDescription="@string/favorite_button"
         android:textOff=""
         android:textOn=""
+        android:focusable="false"
         android:background="@drawable/favorite_toggle"
         android:focusableInTouchMode="false"
         app:layout_constraintEnd_toEndOf="parent"

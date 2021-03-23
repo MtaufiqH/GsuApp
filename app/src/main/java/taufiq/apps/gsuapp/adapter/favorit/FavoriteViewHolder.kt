@@ -3,7 +3,7 @@ package taufiq.apps.gsuapp.adapter.favorit
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
-import taufiq.apps.gsuapp.data.local.FavoriteUser
+import taufiq.apps.gsuapp.data.remote.responses.search.Item
 import taufiq.apps.gsuapp.databinding.ItemFavoriteRowBinding
 
 /**
@@ -13,14 +13,13 @@ import taufiq.apps.gsuapp.databinding.ItemFavoriteRowBinding
 class FavoriteViewHolder(val binding: ItemFavoriteRowBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bindList(userFavs: FavoriteUser, listener: (FavoriteUser) -> Unit) {
-        binding.tvNameFav.text = userFavs.name
-        binding.tvUsernameFav.text = userFavs.username
+    fun bindList(userFavs: Item, listener: (Item) -> Unit) {
+        binding.tvUsernameFav.text = userFavs.login
         binding.ivUserFav.load(userFavs.avatarUrl) {
             transformations(CircleCropTransformation())
         }
         binding.rootView.setOnClickListener {
-            listener(userFavs)
+            listener.invoke(userFavs)
         }
     }
 }

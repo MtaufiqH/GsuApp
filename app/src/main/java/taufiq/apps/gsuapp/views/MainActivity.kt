@@ -20,7 +20,7 @@ import taufiq.apps.gsuapp.viewmodel.MainViewModel
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val binding by viewBinding<ActivityMainBinding>()
+    private val binding: ActivityMainBinding by viewBinding()
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this@MainActivity, DetailActivity::class.java).apply {
                         putExtra(DetailActivity.DETAIL_KEY, items.login)
                         putExtra(DetailActivity.DETAIL_ID, items.id)
+                        putExtra(DetailActivity.DETAIL_AVATAR, items.avatarUrl)
                     })
                 }.also {
                     it.setData(data.items)
@@ -50,13 +51,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
-        val searchView = menu?.findItem(R.id.search_menu)?.actionView as SearchView?
-        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView?.queryHint = resources.getString(R.string.search_github_user_here)
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        val searchView = menu.findItem(R.id.search_menu).actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.queryHint = resources.getString(R.string.search_github_user_here)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 mainViewModel.getSearchUser(query.toString())
                 searchView.clearFocus()

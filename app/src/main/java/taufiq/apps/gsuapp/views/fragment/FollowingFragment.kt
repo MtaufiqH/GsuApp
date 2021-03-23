@@ -1,13 +1,12 @@
 package taufiq.apps.gsuapp.views.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.following.FollowingAdapter
 import taufiq.apps.gsuapp.databinding.FollowingFragmentLayoutBinding
@@ -26,25 +25,17 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val detail = activity as DetailActivity
-//        val username = detail.getUsername()
-//        followingViewModel.getFollowing(username!!)
         val argument = arguments
         val username = argument?.getString(DetailActivity.DETAIL_KEY).toString()
         followingViewModel.getFollowing(username)
 
         binding.apply {
             followingViewModel.dataFollowing.observe(viewLifecycleOwner) { followingData ->
-                Log.d("TAG", "data $followingData")
                 rvFollowing.apply {
                     layoutManager =
                         LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     adapter = FollowingAdapter(arrayListOf()) {
-                        Toast.makeText(
-                            context,
-                            "you're clicked ${it.login}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Snackbar.make(view, "hello ${it.login}", Snackbar.LENGTH_SHORT).show()
                     }.also { adapter ->
                         adapter.setData(followingData)
                         val item = adapter.itemCount
@@ -53,7 +44,7 @@ class FollowingFragment : Fragment(R.layout.following_fragment_layout) {
                             lottieStateFollowing.visibility = View.VISIBLE
                         } else
                             rvFollowing.visibility = View.VISIBLE
-                        lottieStateFollowing.visibility = View.GONE
+                            lottieStateFollowing.visibility = View.GONE
                     }
                 }
             }

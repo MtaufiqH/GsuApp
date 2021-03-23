@@ -13,7 +13,6 @@ class FavoriteViewHolder(private val binding: ItemFavoriteRowBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bindList(userFavs: FavoriteUser) {
-        binding.tvNameFav.text = userFavs.name
         binding.tvUsernameFav.text = userFavs.username
         binding.ivUserFav.load(userFavs.avatarUrl) {
             transformations(CircleCropTransformation())

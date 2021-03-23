@@ -29,7 +29,9 @@
             android:permission="taufiq.apps.gsuapp.READ_DATABASE" />
 
         <activity android:name=".views.SettingsActivity" />
-        <activity android:name=".views.FavoriteActivity" />
+        <activity
+            android:name=".views.FavoriteActivity"
+            android:parentActivityName=".views.MainActivity" />
         <activity android:name=".views.DetailActivity" />
         <activity
             android:name=".views.SplashActivity"

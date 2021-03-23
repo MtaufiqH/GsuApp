@@ -25,4 +25,5 @@
     <string name="widget_enabled">widget is enabled</string>
     <string name="widget_disabled">widget was disabled</string>
     <string name="search">search</string>
+    <string name="favorite_user">Favorite User</string>
 </resources>

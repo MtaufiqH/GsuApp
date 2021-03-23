@@ -26,4 +26,5 @@
     <string name="widget_disabled">widget di matikan</string>
     <string name="widget_enabled">widget di aktifkan</string>
     <string name="search">cari</string>
+    <string name="favorite_user">user favorit</string>
 </resources>

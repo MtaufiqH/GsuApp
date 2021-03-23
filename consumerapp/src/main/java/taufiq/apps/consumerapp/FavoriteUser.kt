@@ -8,5 +8,4 @@ data class FavoriteUser(
     val id: Int,
     val username: String,
     val avatarUrl: String,
-    val name: String
 )

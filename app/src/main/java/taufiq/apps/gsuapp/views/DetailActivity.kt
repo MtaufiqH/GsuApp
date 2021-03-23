@@ -6,16 +6,16 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.main.PagerAdapter
-import taufiq.apps.gsuapp.data.local.FavoriteUser
 import taufiq.apps.gsuapp.databinding.ActivityDetailBinding
 import taufiq.apps.gsuapp.utils.ZoomOutPageTransformer
 import taufiq.apps.gsuapp.viewmodel.DetailViewModel
@@ -29,15 +29,16 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = ""
         val myUsername = intent.getStringExtra(DETAIL_KEY)
-        val id = intent.getIntExtra(DETAIL_ID, 0)
-        if (myUsername != null) {
+        val myId = intent.getIntExtra(DETAIL_ID, 0)
+        val myAvatar = intent.getStringExtra(DETAIL_AVATAR)
+        if (myUsername != null && myAvatar != null) {
             detailViewModel.getDataDetail(myUsername)
 
             var isFavorite = false
-            lifecycleScope.launchWhenCreated {
-                withContext(Dispatchers.IO) {
-                    val userCount = detailViewModel.checkUserFavorite(id)
-                    withContext(Dispatchers.Main) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val userCount = detailViewModel.checkUserFavorite(myId)
+                withContext(Dispatchers.Main) {
+                    if (userCount != null) {
                         if (userCount > 0) {
                             binding.tbFavorite.isChecked = true
                             isFavorite = true
@@ -49,63 +50,37 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
 
-            detailViewModel.dataDetail.observe(this) { dataDetail ->
-                if (dataDetail != null) {
-                    binding.apply {
-                        ivProfilDetail.load(dataDetail.avatarUrl) {
-                            transformations(CircleCropTransformation())
-                            placeholder(R.drawable.ic_user_plcholder)
-                        }
-                        tvFullName.text = dataDetail.name
-                        tvUserName.text = dataDetail.login
-                        tvUserLocation.text = dataDetail.location
-                        tvFollowerCount.text = dataDetail.followers.toString()
-                        tvFollowingCount.text = dataDetail.following.toString()
+            binding.tbFavorite.setOnClickListener {
+                isFavorite = !isFavorite
+                if (isFavorite) {
+                    detailViewModel.insertToFavorite(myUsername, myId, myAvatar)
+                    Toast.makeText(this, getString(R.string.adding_to_fav), Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    detailViewModel.deleteFromFavorite(myId)
+                    Toast.makeText(this, getString(R.string.delete_from_fav), Toast.LENGTH_SHORT)
+                        .show()
+                }
+                binding.tbFavorite.isChecked = isFavorite
+            }
+        }
+
+        detailViewModel.dataDetail.observe(this) { dataDetail ->
+            if (dataDetail != null) {
+                binding.apply {
+                    ivProfilDetail.load(dataDetail.avatarUrl) {
+                        transformations(CircleCropTransformation())
+                        placeholder(R.drawable.ic_user_plcholder)
                     }
-
-                    binding.tbFavorite.setOnClickListener {
-                        isFavorite = !isFavorite
-                        val name = dataDetail.name ?: ""
-                        if (isFavorite) {
-
-                            val user =
-                                FavoriteUser(
-                                    dataDetail.id,
-                                    dataDetail.login,
-                                    dataDetail.avatarUrl,
-                                    name
-                                )
-
-                            user.let {
-                                detailViewModel.insertToFavorite(it)
-                            }
-                            Toast.makeText(
-                                this@DetailActivity,
-                                this.getString(R.string.adding_to_fav),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            val user =
-                                FavoriteUser(
-                                    dataDetail.id,
-                                    dataDetail.login,
-                                    dataDetail.avatarUrl,
-                                    name
-                                )
-                            user.let {
-                                detailViewModel.deleteFromFavorite(it)
-                            }
-                            Toast.makeText(
-                                this@DetailActivity,
-                                this.getString(R.string.delete_from_fav),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        binding.tbFavorite.isChecked = isFavorite
-                    }
+                    tvFullName.text = dataDetail.name
+                    tvUserName.text = dataDetail.login
+                    tvUserLocation.text = dataDetail.location
+                    tvFollowerCount.text = dataDetail.followers.toString()
+                    tvFollowingCount.text = dataDetail.following.toString()
                 }
             }
         }
+
 
         val bundle = Bundle().apply {
             putString(DETAIL_KEY, myUsername)
@@ -124,5 +99,6 @@ class DetailActivity : AppCompatActivity() {
         private val TAB_TITLES = intArrayOf(R.string.followers, R.string.following)
         const val DETAIL_KEY = "detail_key"
         const val DETAIL_ID = "detail_id"
+        const val DETAIL_AVATAR = "avatar_url"
     }
 }

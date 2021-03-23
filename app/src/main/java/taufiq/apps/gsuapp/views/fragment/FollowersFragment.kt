@@ -3,10 +3,10 @@ package taufiq.apps.gsuapp.views.fragment
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import taufiq.apps.gsuapp.R
 import taufiq.apps.gsuapp.adapter.followers.FollowerAdapter
 import taufiq.apps.gsuapp.databinding.FollowersFragmentLayoutBinding
@@ -24,13 +24,12 @@ class FollowersFragment : Fragment(R.layout.followers_fragment_layout) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val detail = activity as DetailActivity
-//        val username = detail.getUsername()
-//            followersViewModel.getFollowers(username)
+
         val argument = arguments
         val username = argument?.getString(DetailActivity.DETAIL_KEY).toString()
-        followersViewModel.getFollowers(username)
-
+        if (username.isNotEmpty()){
+            followersViewModel.getFollowers(username)
+        }
 
         followersViewModel.dataFollowers.observe(viewLifecycleOwner) { followers ->
             if (followers != null) {
@@ -38,11 +37,7 @@ class FollowersFragment : Fragment(R.layout.followers_fragment_layout) {
                     layoutManager =
                         LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
                     adapter = FollowerAdapter(arrayListOf()) {
-                        Toast.makeText(
-                            context,
-                            "you're clicked ${it.login}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Snackbar.make(view, "hello ${it.login}", Snackbar.LENGTH_SHORT).show()
                     }.also { adapter ->
                         adapter.setData(followers)
                         val item = adapter.itemCount
@@ -51,7 +46,7 @@ class FollowersFragment : Fragment(R.layout.followers_fragment_layout) {
                             binding.lottieStateFollowers.visibility = View.VISIBLE
                         } else
                             binding.rvFollowers.visibility = View.VISIBLE
-                        binding.lottieStateFollowers.visibility = View.GONE
+                            binding.lottieStateFollowers.visibility = View.GONE
                     }
                 }
             }

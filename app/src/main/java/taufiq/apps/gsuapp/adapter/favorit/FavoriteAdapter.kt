@@ -3,7 +3,7 @@ package taufiq.apps.gsuapp.adapter.favorit
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import taufiq.apps.gsuapp.data.local.FavoriteUser
+import taufiq.apps.gsuapp.data.remote.responses.search.Item
 import taufiq.apps.gsuapp.databinding.ItemFavoriteRowBinding
 
 /**
@@ -11,8 +11,8 @@ import taufiq.apps.gsuapp.databinding.ItemFavoriteRowBinding
  *
  */
 class FavoriteAdapter(
-    val item: ArrayList<FavoriteUser>,
-    private val listener: (FavoriteUser) -> Unit
+    val item: ArrayList<Item>,
+    private val listener: (Item) -> Unit
 ) :
     RecyclerView.Adapter<FavoriteViewHolder>() {
 
@@ -32,7 +32,7 @@ class FavoriteAdapter(
 
     override fun getItemCount(): Int = item.size
 
-    fun setData(items: List<FavoriteUser>) {
+    fun setData(items: List<Item>) {
         item.apply {
             clear()
             addAll(items)

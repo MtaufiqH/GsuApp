@@ -32,8 +32,6 @@ class DetailViewModel @Inject constructor(
     private val _dataFollowing = MutableLiveData<FollowingResponses>()
     val dataFollowing: LiveData<FollowingResponses> = _dataFollowing
 
-    val isFavorit = MutableLiveData(false)
-
     fun getDataDetail(username: String) = viewModelScope.launch {
         api.getDetailUser(username).also {
             if (it.isSuccessful) {
@@ -63,14 +61,15 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun insertToFavorite(user: FavoriteUser) = viewModelScope.launch {
+    fun insertToFavorite(userName: String,id: Int,avatarUrl : String) = viewModelScope.launch {
+        val user = FavoriteUser(id,userName,avatarUrl)
         favRepo.insertUserToFavorite(user)
     }
 
-    fun deleteFromFavorite(user: FavoriteUser) = viewModelScope.launch {
-        favRepo.deleteUserFavorite(user)
+    fun deleteFromFavorite(id: Int) = viewModelScope.launch {
+        favRepo.deleteUserFavorite(id)
     }
 
-     fun checkUserFavorite(id: Int) = favRepo.checkUserFavorite(id)
+     suspend fun checkUserFavorite(id: Int) = favRepo.checkUserFavorite(id)
 
 }
